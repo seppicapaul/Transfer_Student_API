@@ -1,0 +1,11 @@
+APP_ENV=local
+APP_PORT=8443
+APP_DOMAIN=kodiak.cs.sonoma.edu
+
+JWT_KEY=GqqRpRmu9_yxo_sEIxVNYLedFXLw3zf_G_zbMIl9VMc1234
+
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=kooshesh
+DB_PASS=.Kam.Janet
+DB_DATABASE=scheduler
