@@ -24,7 +24,8 @@ app.use(async (ctx, next) => {
 });
 
 // require('./config/courses_routes.js')(app);
-require('./config/draught_services_routes.js')(app);
+// require('./config/draught_services_routes.js')(app);
+require('./config/normalized_fake_routes.js')(app);
 
 const httpsServer = require('./config/ssl/ssl.js')(app.callback());
 httpsServer.listen(process.env.APP_PORT, () => console.log(`Listening on HTTPS port ${process.env.APP_PORT}`));

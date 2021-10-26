@@ -14,11 +14,11 @@ class LoginController {
 	    // you can at least make sure that user's input is consistent
 	    // with the format of email addresses. 
 	    
-            let query = "SELECT * FROM scheduler_users WHERE user_id = ?";
+            let query = "SELECT * FROM students WHERE student_id = ?";
             dbConnection.query(
                 {
                     sql: query,
-                    values: [ctx.params.user_id]
+                    values: [ctx.params.student_id]
                 }, (error, tuples) => {
                     if (error) {
                         console.log("Query error.", error);
