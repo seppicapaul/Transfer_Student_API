@@ -10,25 +10,22 @@ class TransferController {
         console.log('Constructor of TransferController is called.');
     }
 
-    async AllTransferCourses(ctx) {
-        console.log('transactionsForCycleID is called: cycleID is ', JSON.stringify(ctx.params.studentID));
+    async transferCourses(ctx) {
+        console.log('transferCourses is called: studentID is ', JSON.stringify(ctx.params.studentID));
         return new Promise((resolve, reject) => {
             const query = `
-                       SELECT transactionDate, transactionID, accountName, employeeName, routeName, marketName, productName, taps
+                       SELECT *
                         FROM 
-                            transactions t, accounts a, employees e, routes r, markets m, products p  
+                            transfer_courses  
                         WHERE
-                            t.accountID = a.accountID AND
-                            t.employeeID = e.employeeID AND
-                            t.routeID = r.routeID AND
-                            t.marketID = m.marketID AND
-                            t.productID = p.productID AND 
-                            t.cycleID = ? 
-                        ORDER BY transactionDate desc LIMIT 100
+                            student_id = ? 
+                        ORDER BY 
+                            from_year,
+                            from_semester
                         `;
             dbConnection.query({
                 sql: query,
-                values: [ctx.params.cycleID]
+                values: [ctx.params.studentID]
             }, (error, tuples) => {
                 if (error) {
                     console.log("Connection error in TransactionsController::transactionsForCycleID", error);
@@ -43,6 +40,143 @@ class TransferController {
         }).catch(err => console.log("Database connection error.", err));
     }
 
+    async enrollment(ctx) {
+        console.log('transferCourses is called: studentID is ', JSON.stringify(ctx.params.studentID));
+        return new Promise((resolve, reject) => {
+            const query = `
+                       SELECT *
+                        FROM 
+                            enrollment  
+                        WHERE
+                            student_id = ? 
+                        `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.studentID]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in TransactionsController::transactionsForCycleID", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
+
+    async testCreditCourses(ctx) {
+        console.log('transferCourses is called: studentID is ', JSON.stringify(ctx.params.studentID));
+        return new Promise((resolve, reject) => {
+            const query = `
+                       SELECT *
+                        FROM 
+                            test_credit_courses  
+                        WHERE
+                            student_id = ? 
+                        `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.studentID]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in TransactionsController::transactionsForCycleID", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
+
+    async arrUpdateForm(ctx) {
+        console.log('arrUpdateForm is called: studentID is ', JSON.stringify(ctx.params.studentID));
+        return new Promise((resolve, reject) => {
+            const query = `
+                       SELECT *
+                        FROM 
+                            arr_update_form  
+                        WHERE
+                            student_id = ? 
+                        `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.studentID]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in TransactionsController::transactionsForCycleID", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
+
+    async student(ctx) {
+        console.log('arrUpdateForm is called: studentID is ', JSON.stringify(ctx.params.studentID));
+        return new Promise((resolve, reject) => {
+            const query = `
+                       SELECT *
+                        FROM 
+                            students  
+                        WHERE
+                            student_id = ? 
+                        `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.studentID]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in TransactionsController::transactionsForCycleID", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
+
+    async transferCoursesNonArticulated(ctx) {
+        console.log('transferCourses is called: studentID is ', JSON.stringify(ctx.params.studentID));
+        return new Promise((resolve, reject) => {
+            const query = `
+                       SELECT *
+                        FROM 
+                            transfer_courses  
+                        WHERE
+                            student_id = ? AND ssu_subject IS NULL             
+                        ORDER BY 
+                            from_year,
+                            from_semester
+                        `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.studentID]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in TransactionsController::transactionsForCycleID", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
 }
 
-module.exports = TransactionsController;
+module.exports = TransferController;

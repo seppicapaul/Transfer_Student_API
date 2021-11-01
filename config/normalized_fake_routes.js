@@ -37,12 +37,25 @@ const loginRouter = require('koa-router')({
 loginRouter.get('/:student_id', LoginController.authorizeUser, (err) => console.log("routers.js: loginRouter error:", err));
 
 
+const TransferController = new (require('../app/Controllers/TransferController.js'))();
+const transferRouter = require('koa-router')({
+    prefix: '/transfer'
+});
+
+transferRouter.use(VerifyJWT);
+transferRouter.get('/:studentID/transfer-courses', Authorize('admin'), TransferController.transferCourses);
+transferRouter.get('/:studentID/enrollment', Authorize('admin'), TransferController.enrollment);
+transferRouter.get('/:studentID/test-credit-courses', Authorize('admin'), TransferController.testCreditCourses);
+transferRouter.get('/:studentID/arr-update-form', Authorize('admin'), TransferController.arrUpdateForm);
+transferRouter.get('/:studentID/nonarticulated-courses', Authorize('admin'), TransferController.transferCoursesNonArticulated);
+
 /**
  * Register all of the controllers into the default controller.
  */
 router.use(
     '',
     loginRouter.routes(),
+    transferRouter.routes()
 );
 
 module.exports = function (app) {
