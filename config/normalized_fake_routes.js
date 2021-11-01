@@ -47,7 +47,7 @@ transferRouter.get('/:studentID/transfer-courses', Authorize('admin'), TransferC
 transferRouter.get('/:studentID/enrollment', Authorize('admin'), TransferController.enrollment);
 transferRouter.get('/:studentID/test-credit-courses', Authorize('admin'), TransferController.testCreditCourses);
 transferRouter.get('/:studentID/arr-update-form', Authorize('admin'), TransferController.arrUpdateForm);
-
+transferRouter.get('/:studentID/nonarticulated-courses', Authorize('admin'), TransferController.transferCoursesNonArticulated);
 
 /**
  * Register all of the controllers into the default controller.

@@ -147,6 +147,36 @@ class TransferController {
             });
         }).catch(err => console.log("Database connection error.", err));
     }
+
+    async transferCoursesNonArticulated(ctx) {
+        console.log('transferCourses is called: studentID is ', JSON.stringify(ctx.params.studentID));
+        return new Promise((resolve, reject) => {
+            const query = `
+                       SELECT *
+                        FROM 
+                            transfer_courses  
+                        WHERE
+                            student_id = ? AND ssu_subject IS NULL             
+                        ORDER BY 
+                            from_year,
+                            from_semester
+                        `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.studentID]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in TransactionsController::transactionsForCycleID", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
 }
 
 module.exports = TransferController;
