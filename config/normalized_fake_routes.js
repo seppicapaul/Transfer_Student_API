@@ -42,12 +42,20 @@ const transferRouter = require('koa-router')({
     prefix: '/transfer'
 });
 
+const CourseController = new (require('../app/Controllers/CourseController.js'))();
+const courseRouter = require('koa-router')({
+    prefix: '/courses'
+});
+
 transferRouter.use(VerifyJWT);
 transferRouter.get('/:studentID/transfer-courses', Authorize('admin'), TransferController.transferCourses);
 transferRouter.get('/:studentID/enrollment', Authorize('admin'), TransferController.enrollment);
 transferRouter.get('/:studentID/test-credit-courses', Authorize('admin'), TransferController.testCreditCourses);
 transferRouter.get('/:studentID/arr-update-form', Authorize('admin'), TransferController.arrUpdateForm);
 transferRouter.get('/:studentID/nonarticulated-courses', Authorize('admin'), TransferController.transferCoursesNonArticulated);
+courseRouter.get('/cs/course-catalog', CourseController.computerScienceCourses);
+courseRouter.get('/:subject/course-catalog', CourseController.coursesBySubject);
+
 
 /**
  * Register all of the controllers into the default controller.
@@ -55,7 +63,8 @@ transferRouter.get('/:studentID/nonarticulated-courses', Authorize('admin'), Tra
 router.use(
     '',
     loginRouter.routes(),
-    transferRouter.routes()
+    transferRouter.routes(),
+    courseRouter.routes()
 );
 
 module.exports = function (app) {
