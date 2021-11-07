@@ -36,6 +36,11 @@ const loginRouter = require('koa-router')({
 });
 loginRouter.get('/:student_id', LoginController.authorizeUser, (err) => console.log("routers.js: loginRouter error:", err));
 
+const advisorLoginController = new (require('../app/Controllers/advisorLoginController.js'));
+const advisorLoginRouter = require('koa-router')({
+    prefix: '/advisor-login'
+});
+advisorLoginRouter.get('/:advisor_id', advisorLoginController.authorizeUser, (err) => console.log("router.js: advisorLoginRouter error:", err));
 
 /**
  * Register all of the controllers into the default controller.
@@ -43,6 +48,7 @@ loginRouter.get('/:student_id', LoginController.authorizeUser, (err) => console.
 router.use(
     '',
     loginRouter.routes(),
+    advisorLoginRouter.routes(),
 );
 
 module.exports = function (app) {
