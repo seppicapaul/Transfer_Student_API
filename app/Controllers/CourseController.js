@@ -119,6 +119,62 @@ class CourseController {
         }).catch(err => console.log("Database connection error.", err));
     }
 
+    async computerScienceCourses(ctx) {
+        return new Promise((resolve, reject) => {
+            const query = `
+                       SELECT *
+                        FROM 
+                            course_catalog 
+                        WHERE
+                            subject = 'CS'             
+                        ORDER BY 
+                            catalog
+                        `;
+            dbConnection.query({
+                sql: query,
+                values: []
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in CourseController::computerScienceCourses", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
+
+    async coursesBySubject(ctx) {
+        return new Promise((resolve, reject) => {
+            const query = `
+                       SELECT *
+                        FROM 
+                            course_catalog 
+                        WHERE
+                            subject = ?             
+                        ORDER BY 
+                            catalog
+                        `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.subject]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in CourseController::coursesBySubject", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
+
 }
 
 module.exports = CourseController;
