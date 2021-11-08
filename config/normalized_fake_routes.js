@@ -42,6 +42,27 @@ const advisorLoginRouter = require('koa-router')({
 });
 advisorLoginRouter.get('/:advisor_id', advisorLoginController.authorizeUser, (err) => console.log("router.js: advisorLoginRouter error:", err));
 
+const TransferController = new (require('../app/Controllers/TransferController.js'))();
+const transferRouter = require('koa-router')({
+    prefix: '/transfer'
+});
+
+transferRouter.use(VerifyJWT);
+transferRouter.get('/:studentID/transfer-courses', Authorize('admin'), TransferController.transferCourses);
+transferRouter.get('/:studentID/enrollment', Authorize('admin'), TransferController.enrollment);
+transferRouter.get('/:studentID/test-credit-courses', Authorize('admin'), TransferController.testCreditCourses);
+transferRouter.get('/:studentID/arr-update-form', Authorize('admin'), TransferController.arrUpdateForm);
+transferRouter.get('/:studentID/nonarticulated-courses', Authorize('admin'), TransferController.transferCoursesNonArticulated);
+
+const CourseController = new (require('../app/Controllers/CourseController.js'))();
+const courseRouter = require('koa-router')({
+    prefix: '/courses'
+});
+
+courseRouter.use(VerifyJWT);
+courseRouter.get('/cs/course-catalog', Authorize('admin'), CourseController.computerScienceCourses);
+courseRouter.get('/:subject/course-catalog', Authorize('admin'), CourseController.coursesBySubject);
+
 /**
  * Register all of the controllers into the default controller.
  */
