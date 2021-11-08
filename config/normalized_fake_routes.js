@@ -63,6 +63,7 @@ courseRouter.use(VerifyJWT);
 courseRouter.get('/cs/course-catalog', Authorize('admin'), CourseController.computerScienceCourses);
 courseRouter.get('/:subject/course-catalog', Authorize('admin'), CourseController.coursesBySubject);
 
+
 /**
  * Register all of the controllers into the default controller.
  */
