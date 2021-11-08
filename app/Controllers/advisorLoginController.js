@@ -14,7 +14,9 @@ class advisorLoginController {
             // you can at least make sure that user's input is consistent
             // with the format of email addresses.
 
-            let query = "SELECT * FROM advisors WHERE advisor_id = ?";
+            let query = `SELECT advisor_id, advisor_fName, advisor_mName, advisor_lName FROM advisors 
+                         WHERE advisor_id = ? 
+                         GROUP BY advisor_id, advisor_fName, advisor_mName, advisor_lName`;
             dbConnection.query(
                 {
                     sql: query,
