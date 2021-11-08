@@ -2,7 +2,7 @@
   "name": "ssiapp",
   "version": "1.0.0",
   "description": "An node-based application for Shared Services",
-  "main": "index.js",
+  "main": "api_server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"

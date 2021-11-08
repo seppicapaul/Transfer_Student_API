@@ -36,6 +36,11 @@ const loginRouter = require('koa-router')({
 });
 loginRouter.get('/:student_id', LoginController.authorizeUser, (err) => console.log("routers.js: loginRouter error:", err));
 
+const advisorLoginController = new (require('../app/Controllers/advisorLoginController.js'));
+const advisorLoginRouter = require('koa-router')({
+    prefix: '/advisor-login'
+});
+advisorLoginRouter.get('/:advisor_id', advisorLoginController.authorizeUser, (err) => console.log("router.js: advisorLoginRouter error:", err));
 
 const TransferController = new (require('../app/Controllers/TransferController.js'))();
 const transferRouter = require('koa-router')({
@@ -65,8 +70,7 @@ courseRouter.get('/:subject/course-catalog', Authorize('admin'), CourseControlle
 router.use(
     '',
     loginRouter.routes(),
-    transferRouter.routes(),
-    courseRouter.routes()
+    advisorLoginRouter.routes(),
 );
 
 module.exports = function (app) {
